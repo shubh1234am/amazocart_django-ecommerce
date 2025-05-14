@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Custom styling for modern look -->
+<style>
+    .product-card {
+        border: none;
+        border-radius: 16px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image-container {
+        height: 220px;
+        background-color: #f8f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .product-image-container img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+    }
+
+    .category-heading {
+        font-size: 2rem;
+        font-weight: 600;
+        border-left: 5px solid #0d6efd;
+        padding-left: 15px;
+        margin: 50px 0 30px;
+        color: #2c3e50;
+    }
+
+    .product-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .product-price {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #28a745;
+    }
+
+    .product-actions .btn {
+        border-radius: 50px;
+        font-weight: 500;
+        padding: 6px 14px;
+    }
+
+    .welcome-box {
+        margin-top: 80px;
+        text-align: center;
+        padding: 50px;
+        background: linear-gradient(to right, #e0f7fa, #d1c4e9);
+        border-radius: 16px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .welcome-box h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .welcome-box span {
+        color: #e67e22;
+    }
+
+    .welcome-box p {
+        font-size: 1.3rem;
+        color: #6c5ce7;
+        margin-top: 15px;
+    }
+
+    .marquee {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        box-sizing: border-box;
+        margin: 30px 0;
+    }
+
+    .marquee-text {
+        display: inline-block;
+        padding-left: 100%;
+        animation: marquee 15s linear infinite;
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #2d3436;
+    }
+
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+</style>
+
+<div class="container">
+
+    <!-- Messages -->
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-4" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+
+    <!-- Welcome Section -->
+    <div class="welcome-box">
+        <h1>WELCOME TO <span>AmazoCart</span></h1>
+        <p><strong>Shop the best products at unbeatable prices!</strong></p>
+    </div>
+
+    <!-- Scrolling Marquee -->
+    <div class="marquee">
+        <div class="marquee-text">
+            🛒 Big discounts available! | 🚚 Free Shipping on orders over ₹999! | 💳 Secure Payments | 🎁 Limited Time Offers – Shop Now!
+        </div>
+    </div>
+
+    <!-- Products by Category -->
+    {% for category_group in products_by_category %}
+    <div class="mb-5">
+        <h2 class="category-heading">{{ category_group.category }}</h2>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            {% for product in category_group.products %}
+            <div class="col">
+                <div class="card product-card h-100">
+                    <!-- Image -->
+                    <div class="product-image-container">
+                        <img src="/media/{{ product.image }}" alt="{{ product.product_name }}">
+                    </div>
+
+                    <!-- Info -->
+                    <div class="card-body">
+                        <h5 class="product-title">{{ product.product_name }}</h5>
+                        <p class="text-muted small mb-2">{{ product.desc|truncatechars:60 }}</p>
+                        <div class="product-price">₹{{ product.price }}</div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <!-- Buttons -->
+<div class="card-footer bg-white border-top-0 product-actions d-flex justify-content-between px-3 pb-3 divpr" id="divpr{{ product.id }}">
+    <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-secondary btn-sm rounded-pill">
+        <i class="far fa-eye me-1"></i> View
+    </a>
+    <button id="pr{{ product.id }}" class="btn btn-primary btn-sm cart">
+        <i class="fas fa-cart-plus me-1"></i> Add to Cart
+    </button>
+</div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  
+ 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Attach "Add to Cart" functionality using AJAX
+        document.querySelectorAll("button.cart").forEach((button) => {
+            button.addEventListener("click", function () {
+                const productId = this.id.replace("pr", ""); // Remove 'pr' prefix
+    
+                // Send AJAX request to add to cart
+                fetch(`/add-to-cart/${productId}/`, {
+                    method: "GET",
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    // Update cart counter
+                    const counter = document.getElementById("cart-counter");
+                    if (counter) {
+                        counter.innerText = data.cart_count;
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error adding to cart:", error);
+                });
+            });
+        });
+    });
+    </script>
+    
+    {% endblock %}
+    

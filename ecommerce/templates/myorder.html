@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .status-pending {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .status-paid {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-failed {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 18px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Orders</h1>
+
+        {% if orders %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>Amount (₹)</th>
+                        <th>Status</th>
+                        <th>Order ID</th>
+                        <th>Payment ID</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ order.name }}</td>
+                            <td>{{ order.total_price }}</td>
+                            <td class="status-{{ order.status|lower }}">{{ order.status }}</td>
+                            <td>
+                                {% with payment=order.payment_set.first %}
+                                    {{ payment.razorpay_order_id }}
+                                {% endwith %}
+                            </td>
+                            <td>
+                                {% with payment=order.payment_set.first %}
+                                    {{ payment.razorpay_payment_id|default:"-" }}
+                                {% endwith %}
+                            </td>
+                            <td>{{ order.created_at|date:"d M Y H:i" }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <strong>Tracking Updates:</strong>
+                                <ul>
+                                    {% for update in order.updates %}
+                                        <li>{{ update.update_desc }} ({{ update.timestamp }})</li>
+                                    {% empty %}
+                                        <li style="color: #dc3545;">No tracking updates yet.</li>  <!-- 🔹 Fix: Shows message if updates are missing -->
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-orders">You haven't placed any orders yet.</div>
+        {% endif %}
+    </div>
+
+    <!-- 🔹 Auto-refresh tracking updates -->
+    <script>
+        setInterval(function() {
+            location.reload();
+        }, 60000);  // Refresh every 60 seconds
+    </script>
+</body>
+</html>

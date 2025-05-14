@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>{% block title %}AmazoCart{% endblock title %}</title>
+  <meta name="description" content="ecommerce website we deliver products in 1 hour">
+  <meta name="keywords" content="amazon, flipkart, selling, ecommerce">
+
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+  <style>
+    .header {
+      box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.4);
+      background-color: #fff;
+      z-index: 999;
+      height: 80px;
+      padding: 10px 0;
+    }
+
+    .logo-img {
+      height: 60px;
+      width: auto;
+    }
+
+    .navmenu ul li a {
+      font-weight: bold;
+      color: #ff8000 !important;
+    }
+
+    .navmenu ul li a:hover {
+      color: #007bff !important;
+    }
+
+    .footer-links ul li a {
+      color: #f8f9fa;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links ul li a:hover {
+      color: #007bff;
+    }
+
+    .location-icon {
+      color: red;
+    }
+
+    .phone-icon {
+      color: green;
+    }
+
+    .email-icon {
+      color: blue;
+    }
+
+    .social-links a.twitter {
+      color: #1DA1F2;
+    }
+
+    .social-links a.facebook {
+      color: #1877F2;
+    }
+
+    .social-links a.instagram {
+      color: #E4405F;
+    }
+
+    .social-links a.linkedin {
+      color: #0077B5;
+    }
+  </style>
+</head>
+
+<body class="index-page">
+
+  <!-- Header -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+      <a href="/" class="logo d-flex align-items-center">
+        <img src="{% static 'images/logo.png' %}" alt="AmazoCart Logo" class="logo-img" style="height: 220px;">
+      </a>
+  
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="/" class="active" style="color: #ff8000 !important;">Home</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'tracker' %}">My Orders</a></li>
+
+          <li><a href="{% url 'checkout' %}">Checkout</a></li>
+          <li><a href="{% url 'profile' %}">My Profile</a></li>
+  
+          {% if user.is_authenticated %}
+          <li style="font-weight: bold; font-size: 18px; background: linear-gradient(90deg, #00dbde, #fc00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: slide 2s infinite linear;">
+            Welcome, {{ user.username }}
+          </li>
+          <style>
+            @keyframes slide {
+              0% {background-position: 0%;}
+              100% {background-position: 100%;}
+            }
+          </style>
+          {% endif %}
+  
+          <li style="position: relative;">
+            <a href="/cart" style="background-color: #007bff; color: white !important; padding: 8px 15px; border-radius: 5px; display: inline-block;">
+              <i class="fas fa-shopping-cart"></i>&nbsp;Cart
+              <span id="cart-counter" style="
+                position: absolute;
+                top: -8px;
+                right: -10px;
+                background: #ffc107;
+                color: #000;
+                font-size: 12px;
+                padding: 2px 6px;
+                border-radius: 50%;
+                font-weight: bold;
+              ">
+                {{ request.session.cart|length|default:0 }}
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            <a href="/contact" style="background-color: #28a745; color: white !important; padding: 8px 15px; border-radius: 5px;">
+              <i class="fas fa-envelope"></i>&nbsp;Contact
+            </a>
+          </li>
+          
+          <!-- Moved Account dropdown to after Contact -->
+          <li class="dropdown">
+            <a href="#">
+              <span>Account</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
+            </a>
+            <ul>
+              {% if user.is_authenticated %}
+                <li><a href="/auth/logout">Logout</a></li>
+              {% else %}
+                <li><a href="/auth/signup">Sign Up</a></li>
+                <li><a href="/auth/login">Login</a></li>
+              {% endif %}
+            </ul>
+          </li>
+          
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <main class="main mt-5 pt-5">
+    {% block content %}{% endblock content %}
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="footer mt-5">
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="/" class="logo d-flex align-items-center text-decoration-none">
+            <span class="amazo-text">AmazoCart</span>
+          </a>
+          
+          <p>We are a leading eCommerce platform delivering products in 1 hour.</p>
+          <div class="social-links d-flex mt-3">
+            <a href="https://github.com/shubh1234am" target="_blank">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="24" height="24">
+            </a>
+            <a href="https://www.linkedin.com/in/shubham-nagulkar-91917231a/" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.linkedin.com/in/shubham-nagulkar-91917231a/" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/shubham-nagulkar-91917231a/" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-3 footer-contact">
+          <h4>Contact Us</h4>
+          <p>
+            <i class="bi bi-geo-alt-fill location-icon"></i> Infotech Park Hinjawadi<br>
+            Pune 411057, Maharashtra, INDIA<br>
+            <i class="bi bi-telephone-fill phone-icon"></i> <strong>Phone:</strong> +91 123456789<br>
+            <i class="bi bi-envelope-fill email-icon"></i> <strong>Email:</strong> info@amazocart.com<br>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <div class="copyright">
+        <p>&copy; <strong><span>AmazoCart</span></strong>. All Rights Reserved</p>
+      </div>
+      <div class="credits">
+        Designed by <a href="#">@Shubham Nagulkar</a>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+  <div id="preloader"></div>
+
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <script>
+    // Fetch cart count dynamically on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/cart-count/')
+            .then(response => response.json())
+            .then(data => {
+                const cartCounter = document.querySelector('span'); // Update selector to target your span
+                if (cartCounter) {
+                    cartCounter.textContent = data.cart_count; // Update cart count dynamically
+                }
+            })
+            .catch(error => console.error('Error fetching cart count:', error));
+    });
+</script>
+
+</body>
+</html>

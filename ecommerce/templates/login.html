@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-3">Login</h2>
+
+        <!-- Django Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: {% if message.tags == 'success' %}green{% else %}red{% endif %}; text-align: center;">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'handlelogin' %}">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <div class="position-relative d-flex align-items-center">
+                    <input type="password" id="password" name="password" class="form-control pe-5" required>
+                    <span onclick="togglePassword('password')" 
+                          style="position: absolute; right: 14px; cursor: pointer; font-size: 18px; color: #666; display: flex; align-items: center; height: 100%;">
+                        👁️
+                    </span>
+                </div>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-dark">Login</button>
+            </div>
+        </form>
+
+        <p class="mt-3 text-center">Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+    </div>
+</div>
+
+<script>
+  function togglePassword(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+</script>
+{% endblock content %}

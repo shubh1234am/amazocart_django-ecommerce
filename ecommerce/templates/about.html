@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}About Us | AmazoCart{% endblock %}
+
+{% block content %}
+<section class="about-us" style="background-color: #f1f5f9; padding: 5rem 0;">
+  <div class="container">
+    <!-- Intro Section -->
+    <div class="text-center mb-5">
+      <h1 style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 3.5rem; color: #2d2d2d;">
+        Welcome to AmazoCart
+      </h1>
+      <p style="font-family: 'Roboto', sans-serif; font-size: 1.4rem; color: #5d5d5d; max-width: 800px; margin: 0 auto;">
+        Where innovation meets simplicity in online shopping. Your satisfaction is our priority.
+      </p>
+    </div>
+
+    <!-- About Content Section -->
+    <div class="row align-items-center mb-5">
+      <div class="col-lg-6">
+        <h2 style="font-family: 'Poppins', sans-serif; font-weight: bold; font-size: 2.5rem; color: #00dbde;">About AmazoCart</h2>
+        <p style="font-family: 'Roboto', sans-serif; font-size: 1.3rem; color: #5d5d5d; line-height: 1.8;">
+          AmazoCart is dedicated to redefining the e-commerce landscape by offering a unique blend of high-quality products, reliable service, 
+          and customer-first innovation. From cutting-edge technology to everyday essentials, we aim to bring you closer to what matters most.
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <div class="about-box shadow-lg rounded-3" style="background: linear-gradient(135deg, #00dbde, #fc00ff); padding: 2rem;">
+          <h3 style="font-family: 'Poppins', sans-serif; font-weight: bold; color: white; font-size: 2rem; margin-bottom: 1rem;">Our Philosophy</h3>
+          <p style="font-family: 'Roboto', sans-serif; color: white; font-size: 1.2rem; line-height: 1.8;">
+            At AmazoCart, we believe in combining the ease of online shopping with uncompromising quality. Our products reflect attention to detail and trust that inspire customers to shop confidently with us.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission Section -->
+    <div class="row align-items-center mb-5">
+      <div class="col-lg-6 order-lg-2">
+        <h2 style="font-family: 'Poppins', sans-serif; font-weight: bold; font-size: 2.5rem; color: #fc00ff;">Our Mission</h2>
+        <p style="font-family: 'Roboto', sans-serif; font-size: 1.3rem; color: #5d5d5d; line-height: 1.8;">
+          To provide a platform that delivers exceptional value, convenience, and innovation. Our mission is to transform how customers interact with the world of e-commerce by prioritizing trust, transparency, and excellence.
+        </p>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <div class="mission-box shadow-lg rounded-3" style="background: linear-gradient(135deg, #f1f1f1, #fc00ff); padding: 2rem;">
+          <h3 style="font-family: 'Poppins', sans-serif; font-weight: bold; font-size: 2rem; color: #2d2d2d; margin-bottom: 1rem;">Why Choose Us?</h3>
+          <ul style="font-family: 'Roboto', sans-serif; font-size: 1.2rem; color: #5d5d5d; line-height: 1.8;">
+            <li>Extensive range of products to suit all your needs.</li>
+            <li>Competitive pricing that makes every purchase a win.</li>
+            <li>Exceptional customer service that puts you first.</li>
+            <li>Secure transactions for peace of mind.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call-to-Action Section -->
+    <div class="text-center mt-5">
+      <a href="{% url 'home' %}" class="btn btn-lg btn-primary shadow rounded-pill" 
+         style="background: linear-gradient(90deg, #00dbde, #fc00ff); color: white; font-size: 1.2rem; padding: 15px 30px;">
+        Explore Our Collection
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

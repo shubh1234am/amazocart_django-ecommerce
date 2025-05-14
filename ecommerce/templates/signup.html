@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Signup | AmazoCart{% endblock title %}
+
+{% block content %}
+<div style="min-height: calc(100vh - 150px); display: flex; justify-content: center; align-items: center; padding: 20px;">
+  <div style="width: 100%; max-width: 380px; padding: 25px 20px; background: #fff; border-radius: 14px; box-shadow: 0 8px 25px rgba(0,0,0,0.07);">
+
+    <h3 style="text-align: center; font-weight: 600; margin-bottom: 18px; color: #333;">Create Account</h3>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div style="font-size: 14px; padding: 10px; margin-bottom: 12px; border-radius: 6px; background-color: {% if message.tags == 'success' %}#e6ffec{% else %}#ffe6e6{% endif %}; color: {% if message.tags == 'success' %}#256029{% else %}#9f1c1c{% endif %}; text-align: center;">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'signup' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div style="margin-bottom: 12px;">
+        <input type="text" name="username" placeholder="Username" required class="form-control" style="padding: 10px 14px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <input type="email" name="email" placeholder="Email" required class="form-control" style="padding: 10px 14px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+      </div>
+
+      <div style="margin-bottom: 12px; position: relative;">
+        <input type="password" name="password1" id="password1" placeholder="Password" required style="padding: 10px 14px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+        <span onclick="togglePassword('password1')" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #666;">👁️</span>
+      </div>
+
+      <div style="margin-bottom: 16px; position: relative;">
+        <input type="password" name="password2" id="password2" placeholder="Confirm Password" required style="padding: 10px 14px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+        <span onclick="togglePassword('password2')" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #666;">👁️</span>
+      </div>
+
+      <button type="submit" style="width: 100%; padding: 10px; background-color: #212529; color: #fff; border: none; border-radius: 8px; font-weight: 500; cursor: pointer;">
+        Sign Up
+      </button>
+    </form>
+
+    <p style="text-align: center; font-size: 13px; margin-top: 12px;">
+      Already have an account? <a href="{% url 'handlelogin' %}" style="color: #007bff; font-weight: 500;">Login here</a>
+    </p>
+  </div>
+</div>
+
+<script>
+  function togglePassword(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+</script>
+{% endblock content %}

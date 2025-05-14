@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - {{ product_name }}</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+        }
+
+        .details {
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .pay-now-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .pay-now-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Complete Your Payment</h1>
+        <div class="details">
+            <p><strong>Product:</strong> {{ product_name }}</p>
+            <p><strong>Total Amount:</strong> ₹{{ amount|floatformat:2 }}</p>
+        </div>
+
+        <button id="rzp-button" class="pay-now-button">Pay Now</button>
+    </div>
+
+    <script type="text/javascript">
+        var options = {
+            "key": "{{ razorpay_key_id }}",
+            "amount": "{{ amount }}",
+            "currency": "INR",
+            "order_id": "{{ order_id }}",
+            "name": "{{ product_name }}",
+            "description": "{{ product_name }}",
+            "handler": function (response) { 
+                alert("Payment Successful!\nPayment ID: " + response.razorpay_payment_id);
+                
+                // Redirect to payment success page with order ID for tracking integration
+                window.location.href = "/payment-success/?order_id={{ order_id }}"; 
+            },
+            "modal": {
+                "ondismiss": function () { 
+                    alert("Payment Cancelled");
+                    window.location.href = "/error/"; 
+                }
+            },
+            "prefill": { 
+                "name": "{{ user.username }}",
+                "email": "customer@example.com",
+                "contact": "1234567890"
+            },
+            "theme": {
+                "color": "#007bff"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+        document.getElementById('rzp-button').onclick = function(e) {
+            rzp1.open();
+            e.preventDefault();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Payment Status</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        h2 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .status {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        .track-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .track-link:hover {
+            background: #218838;
+        }
+
+        .failure {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Payment Status for Order ID: {{ response.ORDERID }}</h2>
+
+        {% if response.RESPCODE == '01' %}
+            <p class="status">✅ Payment Successful!</p>
+            <p>Payment ID: {{ response.RAZORPAY_PAYMENT_ID }}</p>
+            <a class="track-link" href="/tracker">Track Your Order</a>
+        {% else %}
+            <p class="status failure">❌ Payment Failed</p>
+            <p>Error Code: {{ response.RESPMSG }}</p>
+            <p>Please try again or contact support.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
