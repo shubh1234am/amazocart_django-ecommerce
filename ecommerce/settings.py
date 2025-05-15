@@ -21,7 +21,14 @@ SECRET_KEY = 'django-insecure-fel6g&mcq3ma^zgt^m9w#@rw@8pe*rj7ta7wi%tmlu8*gru(u4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['amazocart.onrender.com', 'amazocart.duckdns.org', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    "amazocart-django-ecommerce.onrender.com",
+    "amazocart.onrender.com",
+    "amazocart.duckdns.org",
+    "127.0.0.1",
+    "localhost"
+]
+
 
 
 # Application definition
