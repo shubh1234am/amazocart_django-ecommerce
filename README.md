@@ -1,4 +1,4 @@
-Amazocart django ecommerce website*
+amzocart django ecommerce website*
 AmazoCart is a full-featured eCommerce web application built using **Django**. It includes user authentication, product listing, cart functionality, and order management — providing a clean and scalable foundation for modern online shopping platforms.
 
 
